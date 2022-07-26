@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Module",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "tainers",
+            // "args": ["--help"],
+            "justMyCode": true
+        },
+        {
+            "name": "Current file",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "program": "${file}",
+            "justMyCode": true
+        }
+    ]
+}
