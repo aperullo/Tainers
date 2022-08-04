@@ -61,10 +61,10 @@ def test_docker_client():
 
 
 def test_start():
-    with (
-        patch("tainers.tainer.Tainer.docker_client") as mocker,
-        patch("tainers.tainer.Tainer.is_ready", return_value=True) as is_ready,
-    ):
+    with patch("tainers.tainer.Tainer.docker_client") as mocker, patch(
+        "tainers.tainer.Tainer.is_ready", return_value=True
+    ) as is_ready:
+
         tainer = Tainer("image")
         tainer.start()
 
@@ -74,7 +74,7 @@ def test_start():
 
 
 def test_stop():
-    with (patch("tainers.tainer.Tainer._container", return_value=MagicMock()),):
+    with patch("tainers.tainer.Tainer._container", return_value=MagicMock()):
         tainer = Tainer("image")
         tainer.stop()
 
@@ -83,10 +83,8 @@ def test_stop():
 
 
 def test_context_manager():
-    with (
-        patch("tainers.tainer.Tainer.start") as mock_start,
-        patch("tainers.tainer.Tainer.stop") as mock_stop,
-    ):
+    with patch("tainers.tainer.Tainer.start") as mock_start, patch("tainers.tainer.Tainer.stop") as mock_stop:
+
         with Tainer("image"):
             mock_start.assert_called_with()
         mock_stop.assert_called_with()
@@ -128,10 +126,10 @@ def test_url_host_not_set():
 
 
 def test_url_host_set():
-    with (
-        patch.dict(os.environ, {"DOCKER_HOST": "tcp://docker:2000"}, clear=True),
-        patch("tainers.tainer.Tainer.host_port", return_value=8080) as mock_host_port,
-    ):
+    with patch.dict(os.environ, {"DOCKER_HOST": "tcp://docker:2000"}, clear=True), patch(
+        "tainers.tainer.Tainer.host_port", return_value=8080
+    ) as mock_host_port:
+
         tainer = Tainer("image")
         result = tainer.url(8080)
 
