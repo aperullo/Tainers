@@ -1,0 +1,64 @@
+name: test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9', '3.10']
+
+    steps:
+    - uses: actions/checkout@v3
+   
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install poetry
+      run: |
+        curl -sSL \
+          "https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py" | python
+        # Adding `poetry` to `$PATH`:
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    
+    - name: Install dependencies
+      run: |
+        poetry config virtualenvs.in-project true
+        poetry run pip install -U pip
+        poetry install
+    
+    - name: Run checks
+      run: |
+        poetry run pytest -m "not integration"
+        poetry run poetry check
+    
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+        filename: coverage.xml
+        badge: true
+        format: markdown
+        indicators: true
+        output: file
+        thresholds: '70 90'
+    
+    - name: Add Coverage PR Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: github.event_name == 'pull_request'
+      with:
+        recreate: true
+        path: code-coverage-results.md
+  
+# TODO: seperate job for integration tests

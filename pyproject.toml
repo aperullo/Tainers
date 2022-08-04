@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "tainers"
-version = "0.0.1"
+version = "0.1.0"
 description = "Simple replacement for testcontainers-python"
-authors = ["ap <18688190+aperullo@users.noreply.github.com>"]
+authors = ["aperullo <18688190+aperullo@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
@@ -13,7 +13,23 @@ docker = "^5.0.3"
 black = "^22.6.0"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
+mypy = "^0.971"
+isort = "^5.10.1"
+coverage = {extras = ["toml"], version = "^6.4.2"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
+[tool.pytest.ini_options]
+addopts = "-s --cov=tainers --cov-report=term --cov-report=xml"
+testpaths = ["tests"]
+markers = [
+    "integration"
+]
+
+[tool.coverage.run]
+omit = ["tests/*"]
