@@ -21,7 +21,7 @@ python_server = Tainer("python:3.9")
 python_server.with_command(["python", "-m", "http.server"])
 python_server.with_port(8000, host=8080)
 
-with python_server as container:
+with python_server:
     resp = requests.get(python_server.url(8000))
     print(resp)
 
