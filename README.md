@@ -1,5 +1,10 @@
 # 'Tainers
 
+![PyPI](https://img.shields.io/pypi/v/tainers?color=green)
+[![codecov](https://codecov.io/gh/aperullo/tainers/branch/main/graph/badge.svg?token=84PZ8MKTJU)](https://codecov.io/gh/aperullo/tainers)
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+![GitHub](https://img.shields.io/github/license/aperullo/tainers)
+
 'Tainers is a simple replacement for testcontainers-python. 
 
 ## What is it?
