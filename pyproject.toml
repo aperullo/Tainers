@@ -15,7 +15,7 @@ pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
 mypy = "^0.971"
 isort = "^5.10.1"
-coverage = {extras = ["toml"], version = "^6.4.2"}
+coverage = {extras = ["toml"], version = "^6.4.3"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
