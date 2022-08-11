@@ -109,7 +109,7 @@ class Tainer:
             volume (str): The volume to add to the container formatted as it would be to the docker command line. Like
                 anonymous volume: "/test"
                 bind-mount: "/test:/test"
-                nameed volume: "test:/test"
+                named volume: "test:/test"
 
         Returns:
             Tainer: the Tainer object
@@ -162,7 +162,7 @@ class Tainer:
         self._container.stop()
         self._container.remove(force=force, v=delete_volume)
 
-    def __enter__(self) -> "Tainer":
+    def __enter__(self):
         self.start()
         return self
 
