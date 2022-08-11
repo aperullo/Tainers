@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tainers"
-version = "0.1.0"
+version = "0.1.1"
 description = "Simple replacement for testcontainers-python"
 authors = ["aperullo <18688190+aperullo@users.noreply.github.com>"]
 license = "MIT"
