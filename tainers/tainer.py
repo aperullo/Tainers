@@ -22,7 +22,7 @@ class Tainer:
         Args:
             image (str): The image to use for the container.
             name (Optional[str], optional): The name for the container. Defaults to None.
-            timeout (int, optional): the number of times to run is_ready before giving up and killing the container. Defaults to 60.
+            timeout (int, optional): the number of times to run is_ready before giving up and killing the container. Use 0 to skip. Defaults to 60.
         """
         self.timeout = timeout
         self._container_id: str = None

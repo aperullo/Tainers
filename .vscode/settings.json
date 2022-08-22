@@ -4,6 +4,8 @@
     "python.defaultInterpreterPath": ".venv/bin/python3.10",
     "python.testing.pytestArgs": [
         "tests",
-        "-s"
-    ]
+        "-s",
+        "--no-cov"
+    ],
+    "python.pythonPath": ".venv/bin/python3.10"
 }
