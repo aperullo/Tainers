@@ -1,11 +1,14 @@
+from ast import pattern
 import logging
 import os
 import time
 import urllib.parse
-from typing import Dict, List, Optional
+from typing import AnyStr, Dict, List, Optional
 
 import docker
 from docker.models.containers import Container
+from time import sleep, time
+from re import MULTILINE, compile
 
 log = logging.getLogger(__name__)
 
@@ -218,3 +221,15 @@ class Tainer:
             raise RuntimeError("Container not started")
 
         return self._container.status == "running"
+
+    def wait_for_log(self, predicate: AnyStr, timeout: int = 30, period: float = 1.0) -> bool:
+        if isinstance(pattern, str):
+            predicate = compile(predicate, MULTILINE).search
+        end_time = time() + timeout
+        while time() < end_time:
+            stdout = self._container.logs(stdout=True, stderr=False).decode("utf-8")
+            stderr = self._container.logs(stderr=True, stdout=False).decode("utf-8")
+            if predicate(stdout) or predicate(stderr):
+                return True
+            sleep(period)
+        return False
