@@ -116,22 +116,29 @@ def test_host_port(docker: MagicMock):
     assert host_port == 9090
 
 
-def test_url_host_not_set():
-    with patch("tainers.tainer.Tainer.host_port", return_value=8080) as mock_host_port:
+def test_host_name_not_set():
+    with patch.dict(os.environ, {}, clear=True):
+        tainer = Tainer("image")
+        result = tainer.host_name()
+
+        assert result == "localhost"
+
+
+def test_host_name_set():
+    with patch.dict(os.environ, {"DOCKER_HOST": "tcp://docker:2000"}, clear=True):
+        tainer = Tainer("image")
+        result = tainer.host_name()
+
+        assert result == "docker"
+
+
+def test_url():
+    with patch("tainers.tainer.Tainer.host_port", return_value=8080) as mock_host_port, patch(
+        "tainers.tainer.Tainer.host_name", return_value="docker"
+    ) as mock_host_name:
         tainer = Tainer("image")
         result = tainer.url(8080)
 
         mock_host_port.assert_called_with(8080)
-        assert result == "http://localhost:8080"
-
-
-def test_url_host_set():
-    with patch.dict(os.environ, {"DOCKER_HOST": "tcp://docker:2000"}, clear=True), patch(
-        "tainers.tainer.Tainer.host_port", return_value=8080
-    ) as mock_host_port:
-
-        tainer = Tainer("image")
-        result = tainer.url(8080)
-
-        mock_host_port.assert_called_with(8080)
+        mock_host_name.assert_called()
         assert result == "http://docker:8080"
