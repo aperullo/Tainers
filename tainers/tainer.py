@@ -188,7 +188,22 @@ class Tainer:
         else:
             return bind_ports[0]["HostPort"]
 
-    def url(self, container_port: int) -> str:
+    def host_name(self) -> str:
+        """
+        Return the host name for the container. Based on DOCKER_HOST.
+
+        Returns:
+            str: The host name
+        """
+        docker_host = os.getenv("DOCKER_HOST")
+        if docker_host:
+            host = urllib.parse.urlparse(docker_host).hostname
+        else:
+            host = "localhost"
+
+        return host
+
+    def url(self, container_port: int, protocol: str = "http") -> str:
         """
         Return the url for the container, respecting DOCKER_HOST variable.
 
@@ -198,14 +213,10 @@ class Tainer:
         Returns:
             str: The url
         """
-        docker_host = os.getenv("DOCKER_HOST")
-        if docker_host:
-            host = urllib.parse.urlparse(docker_host).hostname
-        else:
-            host = "localhost"
+        host = self.host_name()
 
         # TODO: create way to specify default port so this can take no args.
-        return "http://{}:{}".format(host, self.host_port(container_port))
+        return "{}://{}:{}".format(protocol, host, self.host_port(container_port))
 
     def is_ready(self) -> bool:
         """

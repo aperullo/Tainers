@@ -1,7 +1,8 @@
-from tainers import Tainer
 import docker
 import pytest
 import requests
+
+from tainers import Tainer
 
 
 @pytest.mark.functional
