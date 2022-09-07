@@ -191,6 +191,9 @@ class Tainer:
     def host_name(self) -> str:
         """
         Return the host name for the container. Based on DOCKER_HOST.
+
+        Returns:
+            str: The host name
         """
         docker_host = os.getenv("DOCKER_HOST")
         if docker_host:
