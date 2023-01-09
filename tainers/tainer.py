@@ -127,10 +127,18 @@ class Tainer:
         """
         return docker.from_env()
 
+    def pre_start(self):
+        """
+        A hook to be called before the container is started. This can be overriden in subclasses
+        """
+        pass
+
     def start(self):
         """
         Start the container using the args provided using the "with_" functions
         """
+        self.pre_start()
+
         client = self.docker_client
         try:
             client.images.get(self.image)
@@ -157,10 +165,31 @@ class Tainer:
             time.sleep(1)
 
         log.info("Container started as {}", self._container_id)
+        self.post_start()
+
+    def post_start(self):
+        """
+        A hook to be called after the container is started. This can be overriden in subclasses
+        """
+        pass
+
+    def pre_stop(self):
+        """
+        A hook to be called before the container is stopped. This can be overriden in subclasses
+        """
+        pass
 
     def stop(self, force=True, delete_volume=True):
+        self.pre_stop()
         self._container.stop()
         self._container.remove(force=force, v=delete_volume)
+        self.post_stop()
+
+    def post_stop(self):
+        """
+        A hook to be called after the container is stopped. This can be overriden in subclasses
+        """
+        pass
 
     def __enter__(self):
         self.start()

@@ -73,6 +73,20 @@ def test_start():
         )
 
 
+def test_start_hooks():
+    with patch("tainers.tainer.Tainer.docker_client") as mocker, patch(
+        "tainers.tainer.Tainer.is_ready", return_value=True
+    ) as is_ready:
+
+        tainer = Tainer("image")
+        tainer.pre_start = MagicMock()
+        tainer.post_start = MagicMock()
+        tainer.start()
+
+        tainer.pre_start.assert_called()
+        tainer.post_start.assert_called()
+
+
 def test_stop():
     with patch("tainers.tainer.Tainer._container", return_value=MagicMock()):
         tainer = Tainer("image")
@@ -80,6 +94,17 @@ def test_stop():
 
         tainer._container.stop.assert_called_with()
         tainer._container.remove.assert_called_with(force=True, v=True)
+
+
+def test_stop_hooks():
+    with patch("tainers.tainer.Tainer._container", return_value=MagicMock()):
+        tainer = Tainer("image")
+        tainer.pre_stop = MagicMock()
+        tainer.post_stop = MagicMock()
+        tainer.stop()
+
+        tainer.pre_stop.assert_called()
+        tainer.post_stop.assert_called()
 
 
 def test_context_manager():
