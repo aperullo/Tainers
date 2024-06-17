@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "tainers"
-version = "0.3.0"
+version = "0.3.1"
 description = "Simple replacement for testcontainers-python"
 authors = ["aperullo <18688190+aperullo@users.noreply.github.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.7"
-docker = ">=5.0.3,<7.0.0"
+python = "^3.8"
+docker = ">=7.0.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
@@ -16,7 +16,7 @@ pytest-cov = "^4.0.0"
 mypy = "^0.971"
 isort = "^5.10.1"
 coverage = {extras = ["toml"], version = "^6.5.0"}
-requests = "^2.28.1"
+requests = "^2.32.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
