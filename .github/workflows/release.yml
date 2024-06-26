@@ -56,7 +56,7 @@ jobs:
     steps:
     - name: Download artifacts
       id: artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
     
     - name: Create Release
       uses: softprops/action-gh-release@v1
@@ -75,7 +75,7 @@ jobs:
 #     steps:
 #     - name: Download artifacts
 #       id: artifacts
-#       uses: actions/download-artifact@v3
+#       uses: actions/download-artifact@v4
 
 #     - name: Publish to pypi
 #       uses: pypa/gh-action-pypi-publish@release/v1
